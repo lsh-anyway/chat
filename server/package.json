@@ -7,7 +7,9 @@
     "joi": "^13.4.0",
     "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.1.6",
-    "morgan": "^1.9.0"
+    "morgan": "^1.9.0",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
     "prettier": "^1.13.5"
@@ -15,5 +17,8 @@
   "name": "server",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon index"
+  }
 }

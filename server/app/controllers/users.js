@@ -18,7 +18,7 @@ module.exports = {
   // 注册
   signUp: async (req, res, next) => {
     // 获取用户输入的email和密码
-    const { email, password } = req.value.body;
+    const { username, nickname, email, password } = req.value.body;
 
     // 检查数据库中是否有相同邮箱的用户
     const foundUser = await User.findOne({ "local.email": email });
@@ -30,6 +30,8 @@ module.exports = {
 
     // 否则新建一个用户
     const newUser = new User({
+      username,
+      nickname,
       method: "local",
       local: {
         email,
@@ -45,5 +47,10 @@ module.exports = {
     res.status(200).json({ token });
   },
   // 登录
-  signIn: async (req, res, next) => {}
+  signIn: async (req, res, next) => {
+    // 生成token
+    const token = signToken(req.user);
+
+    res.status(200).json({ token });
+  }
 };
