@@ -7,7 +7,6 @@ const UserSchema = new Schema({
   username: {
     type: String,
     unique: true,
-    required: true
   },
   nickname: {
     type: String,
@@ -15,7 +14,7 @@ const UserSchema = new Schema({
   },
   method: {
     type: String,
-    enum: ["local"],
+    enum: ["local", "GitHub"],
     required: true
   },
   local: {
@@ -25,6 +24,15 @@ const UserSchema = new Schema({
     },
     password: {
       type: String
+    }
+  },
+  GitHub: {
+    id: {
+      type: String
+    },
+    email: {
+      type: String,
+      lowercase: true
     }
   },
   friends: [

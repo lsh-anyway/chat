@@ -52,5 +52,11 @@ module.exports = {
     const token = signToken(req.user);
 
     res.status(200).json({ token });
+  },
+  // GitHub登录
+  GitHubOAuth: async (req, res, next) => {
+	  // 生成token
+	  const token = signToken(req.user);
+	  res.status(200).json({ token });
   }
 };

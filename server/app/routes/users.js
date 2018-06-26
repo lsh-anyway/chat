@@ -19,4 +19,15 @@ router
     UserController.signIn
   );
 
+router
+  .route("/oauth/github")
+  .get(
+    passport.authenticate("github", { session: false }),
+    UserController.GitHubOAuth
+  );
+
+router
+  .route("/oauth/github/callback")
+  .post(passport.authenticate("github", { failureRedirect: "/login" }));
+
 module.exports = router;
