@@ -8,7 +8,7 @@ import io from "socket.io-client";
 
 @Component
 export default class Chat extends Vue {
-  public socket: Object = io("http://localhost:3000");
+  public socket = io("http://localhost:3000");
   public initSocket() {
     this.socket.on("news", (data: any) => {
       console.log(data);

@@ -22,7 +22,7 @@ const io = require("socket.io")(server, {
 const user = require("./routes/users");
 
 const corsOptions = {
-  origin: ["http://127.0.0.1:8080", "http://localhost:8080"]
+  origin: "http://localhost:8080"
 };
 
 // 中间件

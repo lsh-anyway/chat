@@ -39,11 +39,15 @@ module.exports = {
       email: Joi.string()
         .email()
         .required(),
-      password: Joi.string().required()
+      password: Joi.string()
+        .regex(/^[a-zA-Z0-9]{6,16}$/)
+        .required()
     }),
     authSchema: Joi.object().keys({
       username: Joi.string().required(),
-      password: Joi.string().required()
-    }),
+      password: Joi.string()
+        .regex(/^[a-zA-Z0-9]{6,16}$/)
+        .required()
+    })
   }
 };
