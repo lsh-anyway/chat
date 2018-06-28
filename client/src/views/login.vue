@@ -8,14 +8,14 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
-@Component()
+@Component
 export default class login extends Vue {
-  isLogin = true;
-  userInfo = "";
+  public isLogin: Boolean = true;
+  public userInfo: Object = {};
   beforeMount() {
     console.log(this.$route);
   }
-  loginByGitHub() {
+  public loginByGitHub() {
     window.location.href =
       "https://github.com/login/oauth/authorize?client_id=55b07150945744c997bf";
   }
