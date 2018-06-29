@@ -8,7 +8,7 @@ const signToken = user => {
       iss: "Lsh",
       sub: user.id,
       iat: new Date().getTime(), // 发布时间
-      exp: new Date().setDate(new Date().getDate() + 1) // 一天后过期
+      // exp: new Date().setDate(new Date().getDate() + 1) // 一天后过期
     },
     JWT_SECRET
   );
@@ -58,5 +58,9 @@ module.exports = {
 	  // 生成token
 	  const token = signToken(req.user);
 	  res.status(200).json({ token });
+  },
+  // 获取用户信息
+  getUser: async (req, res, next) => {
+    res.status(200).json(req.user);
   }
 };

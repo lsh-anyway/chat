@@ -1,5 +1,5 @@
 const express = require("express");
-const http = require('http');
+const http = require("http");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
 const cors = require("cors");
@@ -30,6 +30,9 @@ if (process.env.NODE_ENV !== "test") app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
+
+//静态文件目录
+app.use("/assets", express.static(__dirname + "/assets"));
 
 // 路由
 app.use("/user", user);

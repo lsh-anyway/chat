@@ -26,4 +26,11 @@ router
     UserController.GitHubOAuth
   );
 
+router
+  .route("/info")
+  .get(
+    passport.authenticate("jwt", { session: false }),
+    UserController.getUser
+  );
+
 module.exports = router;

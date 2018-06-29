@@ -44,7 +44,7 @@ export default class login extends Vue {
         username,
         password
       })
-      .then((res: Object) => {
+      .then((res: any) => {
         localStorage.setItem("token", res.token);
         this.$message({
           message: "登录成功",
@@ -52,7 +52,7 @@ export default class login extends Vue {
         });
         this.$router.push("/");
       })
-      .catch((err: Object) => {
+      .catch((err: any) => {
         if (err.response.status === 401) {
           this.$message("用户名或密码错误");
         }

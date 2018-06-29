@@ -8,6 +8,11 @@ const UserSchema = new Schema({
     type: String,
     unique: true,
   },
+  Avatar: {
+    type: String,
+    required: true,
+    default: "/assets/github.png"
+  },
   nickname: {
     type: String,
     required: true

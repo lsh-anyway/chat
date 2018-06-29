@@ -51,17 +51,15 @@ export default class login extends Vue {
         email,
         password
       })
-      .then((res: Object) => {
+      .then((res: any) => {
         localStorage.setItem("token", res.token);
         this.$message({
           message: "注册成功",
           type: "success"
         });
-        setTimeout(() => {
-          this.$router.push('/');
-        }, 3000);
+        this.$router.push("/");
       })
-      .catch((err: Object) => {
+      .catch((err: any) => {
         if (err.response.status === 400) {
           const data = err.response.data;
           const detail = data.details[0].path[0];

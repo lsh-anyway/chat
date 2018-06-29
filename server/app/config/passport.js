@@ -1,6 +1,8 @@
 const passport = require("passport"),
   LocalStrategy = require("passport-local").Strategy,
-	GitHubStrategy = require("passport-github").Strategy;
+	GitHubStrategy = require("passport-github").Strategy,
+  JwtStrategy = require('passport-jwt').Strategy,
+  ExtractJwt = require('passport-jwt').ExtractJwt;
 
 const User = require("../models/users");
 const config = require("../config/index");
@@ -70,4 +72,30 @@ passport.use(
 			// });
 		}
 	)
+);
+
+// token验证策略
+passport.use(
+  new JwtStrategy(
+    {
+      jwtFromRequest: ExtractJwt.fromHeader("authorization"),
+      secretOrKey: config.JWT_SECRET
+    },
+    async (payload, done) => {
+      try {
+        // 在数据库中查找用户
+        const user = await User.findById(payload.sub);
+    
+        // 如果用户不存在，返回 false
+        if (!user) {
+          return done(null, false);
+        }
+    
+        // 否则返回 user
+        done(null, user);
+      } catch (error) {
+        done(error, false);
+      }
+    }
+  )
 );
