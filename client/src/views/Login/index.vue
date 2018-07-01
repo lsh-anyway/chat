@@ -53,8 +53,10 @@ export default class login extends Vue {
         this.$router.push("/");
       })
       .catch((err: any) => {
-        if (err.response.status === 401) {
+        if (err.response) {
           this.$message("用户名或密码错误");
+        } else {
+          this.$message("网络连接错误");
         }
       });
   }

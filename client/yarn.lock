@@ -1641,7 +1641,7 @@ babel-register@^6.26.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.15"
 
-babel-runtime@6.x, babel-runtime@^6.22.0, babel-runtime@^6.26.0, babel-runtime@^6.9.2:
+babel-runtime@6.x, babel-runtime@^6.0.0, babel-runtime@^6.22.0, babel-runtime@^6.26.0, babel-runtime@^6.9.2:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   dependencies:
@@ -1740,6 +1740,12 @@ better-assert@~1.0.0:
   resolved "https://registry.yarnpkg.com/better-assert/-/better-assert-1.0.2.tgz#40866b9e1b9e0b55b481894311e68faffaebc522"
   dependencies:
     callsite "1.0.0"
+
+better-scroll@^1.12.4:
+  version "1.12.4"
+  resolved "https://registry.yarnpkg.com/better-scroll/-/better-scroll-1.12.4.tgz#27d722fe7b6844176feb136da4f2fd39c70f973e"
+  dependencies:
+    babel-runtime "^6.0.0"
 
 bfj-node4@^5.2.0:
   version "5.3.1"
@@ -7672,7 +7678,7 @@ require-from-string@^2.0.1:
 
 require-main-filename@^1.0.1:
   version "1.0.1"
-  resolved "https://registry.yarnpkg.com/require-main-filename/-/require-main-filename-1.0.1.tgz#97f717b69d48784f5f526a6c5aa8ffdda055a4d1"
+  resolved "https://registry.yarnpkg.com/require-main-content-filename/-/require-main-content-filename-1.0.1.tgz#97f717b69d48784f5f526a6c5aa8ffdda055a4d1"
 
 require-uncached@^1.0.3:
   version "1.0.3"
@@ -8502,7 +8508,7 @@ test-exclude@^4.2.1:
     micromatch "^3.1.8"
     object-assign "^4.1.0"
     read-pkg-up "^1.0.1"
-    require-main-filename "^1.0.1"
+    require-main-content-filename "^1.0.1"
 
 text-table@~0.2.0:
   version "0.2.0"
@@ -9056,6 +9062,10 @@ vue@^2.5.16:
   version "2.5.16"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.16.tgz#07edb75e8412aaeed871ebafa99f4672584a0085"
 
+vuex-class@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/vuex-class/-/vuex-class-0.3.1.tgz#3c0b946bcff4cf2be1904de5b0cab1a3dd5c41d5"
+
 vuex@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/vuex/-/vuex-3.0.1.tgz#e761352ebe0af537d4bb755a9b9dc4be3df7efd2"
@@ -9491,7 +9501,7 @@ yargs@11.0.0, yargs@^11.0.0:
     get-caller-file "^1.0.1"
     os-locale "^2.0.0"
     require-directory "^2.1.1"
-    require-main-filename "^1.0.1"
+    require-main-content-filename "^1.0.1"
     set-blocking "^2.0.0"
     string-width "^2.0.0"
     which-module "^2.0.0"
@@ -9509,7 +9519,7 @@ yargs@^7.0.0:
     os-locale "^1.4.0"
     read-pkg-up "^1.0.1"
     require-directory "^2.1.1"
-    require-main-filename "^1.0.1"
+    require-main-content-filename "^1.0.1"
     set-blocking "^2.0.0"
     string-width "^1.0.2"
     which-module "^1.0.0"

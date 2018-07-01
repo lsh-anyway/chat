@@ -1,5 +1,7 @@
 const JWT = require("jsonwebtoken");
 const User = require("../models/users");
+const Dialog = require("../models/dialogs");
+const Message = require("../models/messages");
 const { JWT_SECRET } = require("../config/index");
 
 const signToken = user => {
@@ -7,7 +9,7 @@ const signToken = user => {
     {
       iss: "Lsh",
       sub: user.id,
-      iat: new Date().getTime(), // 发布时间
+      iat: new Date().getTime() // 发布时间
       // exp: new Date().setDate(new Date().getDate() + 1) // 一天后过期
     },
     JWT_SECRET
@@ -21,10 +23,12 @@ module.exports = {
     const { username, nickname, email, password } = req.value.body;
 
     // 检查数据库中是否有相同邮箱的用户
-    const foundUser = await User.findOne({ "local.email": email });
+    const foundUser = await User.findOne({
+      $or: [{ "local.email": email }, { username }]
+    });
     if (foundUser) {
-      return res.status.json({
-        error: "该邮箱已注册"
+      return res.status(403).json({
+        error: "该用户已存在"
       });
     }
 
@@ -55,12 +59,45 @@ module.exports = {
   },
   // GitHub登录
   GitHubOAuth: async (req, res, next) => {
-	  // 生成token
-	  const token = signToken(req.user);
-	  res.status(200).json({ token });
+    // 生成token
+    const token = signToken(req.user);
+    res.status(200).json({ token });
   },
   // 获取用户信息
   getUser: async (req, res, next) => {
-    res.status(200).json(req.user);
+    const user = req.user;
+    let response = {
+      user: {
+        id: user._id,
+        nickname: user.nickname,
+        avatar: user.avatar
+      },
+      friends: user.friends,
+      dialogs: user.dialogs
+    };
+    res.status(200).json(response);
+  },
+  // 查找用户
+  fingUser: async (req, res, next) => {
+    const username = res.body.username;
+    const user = await User.find({
+      $or: [
+        { username },
+        { "local.email": username },
+        { "GitHub.email": username }
+      ]
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "该用户不存在" });
+    }
+
+    const response = {
+      id: user._id,
+      nickname: user.nickname,
+      avatar: user.avatar
+    };
+
+    res.status(200).json(response);
   }
 };

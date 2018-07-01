@@ -12,38 +12,64 @@ Vue.config.productionTip = false;
 Vue.prototype.axios = axios;
 
 router.beforeEach((to, from, next) => {
-  const token = localStorage.getItem("token");
   const path = to.path;
-  if (token) {
-    axios
-      .get("/user/info", {
-        headers: {
-          Authorization: token
-        }
-      })
-      .then(res => {
-        console.log(res);
-        if (path === "/login" || path === "signup") {
-          next("/");
-        }
-        next();
-        return;
-      })
-      .catch(err => {
-        console.log(err);
-        if (path !== "/login") {
-          next("/login");
-        }
-        next();
-      });
-  } else {
+  const isLogin = store.state.isLogin;
+  if (isLogin) {
     switch (path) {
       case "/login":
       case "/signup":
-        next();
+        next("/");
         break;
       default:
-        next("/login");
+        next();
+    }
+  } else {
+    const token = localStorage.getItem("token");
+    if (token) {
+      store
+        .dispatch("getUserInfo", token)
+        .then(() => {
+          switch (path) {
+            case "/login":
+            case "/signup":
+              next("/");
+              break;
+            default:
+              next();
+          }
+        })
+        .catch(() => {
+          next("/login");
+        });
+    } else {
+      switch (path) {
+        case "/chat":
+          if (to.query.code) {
+            axios
+              .get("/user/oauth/github", {
+                params: {
+                  code: to.query.code
+                }
+              })
+              .then((res: any) => {
+                store.dispatch("getUserInfo", res.token).then(() => {
+                  next();
+                });
+              })
+              .catch(() => {
+                next("/login");
+              });
+          } else {
+            next("/login");
+          }
+          break;
+        case "/login":
+        case "/signup":
+          next();
+          break;
+        default:
+          next("/login");
+      }
     }
   }
 });

@@ -1,0 +1,27 @@
+@import "../../scss/media.scss";
+
+.home {
+  height: 100%;
+  @at-root {
+    .left-side {
+      height: 100%;
+    }
+  }
+}
+
+@include tablet-horizontal {
+  .home {
+    display: flex;
+    @at-root {
+      .left-side {
+        flex: 0 0 480px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $tablet-width) {
+  .left-side {
+    width: 100%
+  }
+}

@@ -1,17 +1,15 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import state from "./state";
+import getters from "./getters";
+import mutations from "./mutations";
+import actions from "./actions";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {
-    nickname: null,
-	  avatar: null,
-	  isLogin: false,
-	  friends: [],
-	  message: [],
-	  dialog: []
-  },
-  mutations: {},
-  actions: {}
+  state,
+  getters,
+  mutations,
+  actions
 });

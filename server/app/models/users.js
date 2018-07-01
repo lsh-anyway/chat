@@ -8,7 +8,7 @@ const UserSchema = new Schema({
     type: String,
     unique: true,
   },
-  Avatar: {
+  avatar: {
     type: String,
     required: true,
     default: "/assets/github.png"
@@ -44,6 +44,12 @@ const UserSchema = new Schema({
     {
       type: ObjectId,
       ref: "User"
+    }
+  ],
+  dialogs: [
+    {
+      type: ObjectId,
+      ref: "Dialog"
     }
   ],
   // 0: normal user

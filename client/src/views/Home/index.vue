@@ -1,13 +1,23 @@
 <template>
-	<div>这是首页</div>
+	<div class="home">
+		<div class="left-side">
+			<main-content></main-content>
+		</div>
+	</div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import mainContent from "@/components/main-content/index.vue";
 
-@Component
-export default class Chat extends Vue {}
+@Component({
+  components: {
+    mainContent
+  }
+})
+export default class home extends Vue {}
 </script>
 
 <style scoped lang="scss">
+@import "index";
 </style>

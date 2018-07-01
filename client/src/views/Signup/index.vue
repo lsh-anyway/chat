@@ -15,7 +15,7 @@
 				<el-input type="password" v-model="user.password" placeholder="请输入密码"></el-input>
 			</el-form-item>
 			<el-form-item>
-				<el-button @click="signup">注册</el-button>
+				<el-button @click.native="signup">注册</el-button>
 			</el-form-item>
 		</el-form>
 		<router-link to="/login">返回登录>>></router-link>
@@ -32,7 +32,7 @@ interface User {
 }
 
 @Component
-export default class login extends Vue {
+export default class signup extends Vue {
   // data
   public user: User = {
     username: "",
@@ -60,6 +60,7 @@ export default class login extends Vue {
         this.$router.push("/");
       })
       .catch((err: any) => {
+        console.log(err.response);
         if (err.response.status === 400) {
           const data = err.response.data;
           const detail = data.details[0].path[0];
@@ -77,6 +78,10 @@ export default class login extends Vue {
               this.$message("密码必须为6-16位的英文字母和数字的组合");
               break;
           }
+        } else if (err.response.status === 403) {
+          this.$message("该用户已存在");
+        } else {
+          this.$message("网络连接错误");
         }
       });
   }

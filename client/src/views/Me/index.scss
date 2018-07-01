@@ -1,0 +1,17 @@
+.me {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  @at-root {
+    .log-out {
+      color: #606266;
+      cursor: pointer;
+    }
+    .info {
+      cursor: pointer;
+    }
+    .avatar {
+      margin-bottom: 1rem;
+    }
+  }
+}

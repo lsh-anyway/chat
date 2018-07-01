@@ -40,7 +40,7 @@ passport.use(
         console.log("profile", profile);
         
         // 检查数据库中是否存在该用户
-        const existingUser = await User.findOne({ "google.id": profile.id });
+        const existingUser = await User.findOne({ "GitHub.id": profile.id });
         
         if (existingUser) {
           console.log("User already exists in our database");

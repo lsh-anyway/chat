@@ -1,6 +1,7 @@
 import axios from "axios";
+import { baseUrl } from "@/config";
 
-axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL = baseUrl;
 
 axios.interceptors.response.use(
   function(response) {
