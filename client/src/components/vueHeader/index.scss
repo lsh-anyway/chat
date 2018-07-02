@@ -1,8 +1,9 @@
-.header {
+.vueHeader {
+  position: relative;
   width: 100%;
   height: 3rem;
   line-height: 3rem;
-  border-bottom: 1px solid #DCDFE6;
+  border-bottom: 1px solid #dcdfe6;
   font-size: 20px;
   font-weight: lighter;
   @at-root {

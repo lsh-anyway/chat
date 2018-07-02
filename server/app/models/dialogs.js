@@ -3,14 +3,14 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
 const DialogSchema = new Schema({
-  member: [{
+  members: [{
     type: ObjectId,
-    ref: "User",
+    ref: "user",
     required: true
   }],
-  message: [{
+  messages: [{
     type: ObjectId,
-    ref: "Message"
+    ref: "message"
   }]
 });
 

@@ -33,6 +33,6 @@ router
     UserController.getUser
   );
 
-router.route("/find").get(UserController.fingUser);
+router.route("/find/:username").get(UserController.findUser);
 
 module.exports = router;

@@ -5,17 +5,36 @@ export interface User {
 }
 
 interface Message {
+  id: String;
   from: User;
   content: String;
   created: Date;
+}
+
+interface Dialog {
+  id: String;
+  member: User[];
+  messages: Message[];
+}
+
+interface Content {
+  isActive: Boolean;
+  activeType: String;
+  activeContent: any;
+}
+
+interface Verification {
+  from: User;
+  content: String;
 }
 
 export interface State {
   isLogin: Boolean;
   user: User;
   friends: User[];
-  dialogs: String[];
-  messages: Message[];
+  dialogs: Dialog[];
+  content: Content;
+  verifications: Verification[];
 }
 
 const state: State = {
@@ -27,7 +46,12 @@ const state: State = {
   },
   friends: [],
   dialogs: [],
-  messages: []
+  content: {
+    isActive: false,
+    activeType: "",
+    activeContent: null
+  },
+  verifications: []
 };
 
 export default state;

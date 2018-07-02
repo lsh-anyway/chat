@@ -1,26 +1,33 @@
 <template>
-	<div></div>
+	<div class="contacts">
+		<div @click="showVerification" class="applications">
+			<span class="title">好友申请</span>
+			<span class="num">{{verifications.length}}</span>
+		</div>
+		<ul class="friends-list">
+			<li class="friend-item" v-for="item in friends" :key="item,id">
+				<img class="avatar" :src="baseUrl + item.avatar" width="32" height="32">
+				<span class="nickname">{{item.nickname}}</span>
+			</li>
+		</ul>
+	</div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import io from "socket.io-client";
+import { State, Mutation } from "vuex-class";
+import { baseUrl } from "@/config";
 
 @Component
-export default class Chat extends Vue {
-  public socket = io("http://localhost:3000");
-  public initSocket() {
-    this.socket.on("news", (data: any) => {
-      console.log(data);
-      this.socket.emit("my other event", { my: "data" });
-    });
-  }
+export default class contacts extends Vue {
+  @State verifications: any;
+  @State friends: any;
+  @Mutation showVerification: any;
 
-  mounted() {
-    this.initSocket();
-  }
+  baseUrl = baseUrl;
 }
 </script>
 
 <style scoped lang="scss">
+@import "index";
 </style>

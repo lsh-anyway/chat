@@ -5,12 +5,12 @@ const ObjectId = Schema.Types.ObjectId;
 const MessageSchema = new Schema({
   dialog: {
     type: ObjectId,
-    ref: "Dialog",
+    ref: "dialog",
     required: true
   },
   from: {
     type: ObjectId,
-    ref: "User",
+    ref: "user",
     required: true
   },
   content: {

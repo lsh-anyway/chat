@@ -24,13 +24,12 @@ export default new Router({
     },
     {
       path: "/",
-      name: "home",
       component: Home,
       children: [
-	      {
-	      	path: "/",
-		      redirect: "/chat"
-	      },
+        {
+          path: "/",
+          redirect: "/chat"
+        },
         {
           path: "/chat",
           name: "聊天",

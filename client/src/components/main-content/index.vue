@@ -12,7 +12,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import TabBar from "../tabbar/index.vue";
-import vueHeader from "../header/index.vue";
+import vueHeader from "../vueHeader/index.vue";
 import search from "@/components/search/index.vue";
 
 @Component({
@@ -25,7 +25,7 @@ export default class mainContent extends Vue {
   closeSearch() {
     this.searching = false;
   }
-  showSearch(content) {
+  showSearch(content: any) {
     this.searchContent = content;
     this.searching = true;
   }

@@ -21,6 +21,7 @@ module.exports = {
   signUp: async (req, res, next) => {
     // 获取用户输入的email和密码
     const { username, nickname, email, password } = req.value.body;
+    console.log(req.value.body);
 
     // 检查数据库中是否有相同邮箱的用户
     const foundUser = await User.findOne({
@@ -66,37 +67,76 @@ module.exports = {
   // 获取用户信息
   getUser: async (req, res, next) => {
     const user = req.user;
+    let verifications = user.verifications;
+    let friends = user.friends;
+    let dialogs = user.dialogs;
     let response = {
       user: {
         id: user._id,
         nickname: user.nickname,
         avatar: user.avatar
       },
-      friends: user.friends,
-      dialogs: user.dialogs
+      friends: [],
+      dialogs: [],
+      verifications: []
     };
+    for (let i = 0, len = verifications.length; i < len; i++) {
+      let verification = verifications[i];
+      let from = verification.from;
+      response.verifications.push({
+        from: {
+          id: from._id,
+          nickname: from.nickname,
+          avatar: from.avatar
+        },
+        content: verification.content
+      });
+    }
+    for (let i = 0, len = friends.length; i < len; i++) {
+      let friend = friends[i];
+      response.friends.push({
+        id: friend._id,
+        nickname: friend.nickname,
+        avatar: friend.avatar
+      });
+    }
+    for (let i = 0, len = dialogs.length; i < len; i++) {
+      let dialog = dialogs[i];
+      response.friends.push({
+        id: dialog._id,
+        messages: dialog.messages,
+        members: dialog.members
+      });
+    }
+    
     res.status(200).json(response);
   },
   // 查找用户
-  fingUser: async (req, res, next) => {
-    const username = res.body.username;
-    const user = await User.find({
+  findUser: async (req, res, next) => {
+    const username = req.params.username;
+    const users = await User.find({
       $or: [
         { username },
+        { nickname: username },
         { "local.email": username },
         { "GitHub.email": username }
       ]
     });
 
-    if (!user) {
+    if (!users) {
       return res.status(404).json({ error: "该用户不存在" });
     }
 
-    const response = {
-      id: user._id,
-      nickname: user.nickname,
-      avatar: user.avatar
-    };
+    const response = [];
+    for (let i = 0, len = users.length; i < len; i++) {
+      let user = users[i];
+      response.push({
+        id: user._id,
+        username: user.username,
+        nickname: user.nickname,
+        avatar: user.avatar
+      });
+    }
 
     res.status(200).json(response);
   }

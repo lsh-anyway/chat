@@ -1,5 +1,5 @@
 <template>
-	<div class="header">
+	<div class="vueHeader">
 		{{$route.name}}
 		<el-dropdown class="drop-down" trigger="click" @command="handleCommand">
 			<span class="el-dropdown-link">
@@ -17,8 +17,8 @@
 import { Component, Vue } from "vue-property-decorator";
 
 @Component
-export default class tabBar extends Vue {
-  handleCommand(command) {
+export default class vueHeader extends Vue {
+  handleCommand(command: String) {
     this.$emit("showSearch", command);
   }
 }

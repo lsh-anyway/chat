@@ -1,0 +1,37 @@
+.verification {
+  display: grid;
+  grid-template-rows: 3rem auto;
+  header {
+    position: relative;
+    line-height: 3rem;
+    font-size: 20px;
+    font-weight: lighter;
+    border-bottom: 1px solid #DCDFE6;
+    i {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      font-size: 16px;
+    }
+  }
+  .content {
+    padding: 1rem 2rem;
+    text-align: left;
+    .title {
+      display: inline-block;
+      font-size: 12px;
+      margin-bottom: 0.5rem;
+    }
+    .form {
+      display: flex;
+      justify-content: space-between;
+      .el-input {
+        flex: 7;
+        margin-right: 1rem;
+      }
+      .el-button {
+        flex: 1;
+      }
+    }
+  }
+}

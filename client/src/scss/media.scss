@@ -9,13 +9,13 @@ $desktop-width: 1024px;
 }
 
 @mixin tablet {
-  @media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) {
+  @media (min-width: #{$tablet-width - 1px}) and (max-width: #{$desktop-width - 1px}) {
     @content;
   }
 }
 
-@mixin tablet-horizontal {
-  @media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) and (orientation: landscape) {
+@mixin horizontal {
+  @media (min-width: #{$tablet-width}) and (orientation: landscape) {
     @content;
   }
 }

@@ -6,7 +6,7 @@ const ObjectId = Schema.Types.ObjectId;
 const UserSchema = new Schema({
   username: {
     type: String,
-    unique: true,
+    unique: true
   },
   avatar: {
     type: String,
@@ -43,13 +43,25 @@ const UserSchema = new Schema({
   friends: [
     {
       type: ObjectId,
-      ref: "User"
+      ref: "user"
     }
   ],
   dialogs: [
     {
       type: ObjectId,
-      ref: "Dialog"
+      ref: "dialog"
+    }
+  ],
+  verifications: [
+    {
+      from: {
+        type: ObjectId,
+        ref: "user",
+        required: true
+      },
+      content:{
+        type: String
+      }
     }
   ],
   // 0: normal user
@@ -78,7 +90,7 @@ UserSchema.pre("save", async function(next) {
     this.meta.updateAt = Date.now();
   }
 
-  if (this.method === "local") {
+  if (this.method === "local" && this.isNew) {
     try {
       // 生成盐
       const salt = await bcryto.genSalt(10);

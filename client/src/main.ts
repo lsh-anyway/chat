@@ -14,63 +14,50 @@ Vue.prototype.axios = axios;
 router.beforeEach((to, from, next) => {
   const path = to.path;
   const isLogin = store.state.isLogin;
-  if (isLogin) {
-    switch (path) {
-      case "/login":
-      case "/signup":
-        next("/");
-        break;
-      default:
-        next();
-    }
-  } else {
-    const token = localStorage.getItem("token");
-    if (token) {
-      store
-        .dispatch("getUserInfo", token)
-        .then(() => {
-          switch (path) {
-            case "/login":
-            case "/signup":
-              next("/");
-              break;
-            default:
-              next();
-          }
-        })
-        .catch(() => {
+  const token = localStorage.getItem("token");
+  const code = to.query.code;
+  switch (path) {
+    case "/login":
+    case "/signup":
+      if (isLogin) return next("/");
+      if (!token) return next();
+      if (token) {
+        store
+          .dispatch("getUserInfo", token)
+          .then(() => {
+            if (store.state.isLogin) return next("/");
+            next();
+          })
+          .catch(err => {
+            next();
+          });
+      }
+      break;
+    default:
+      if (isLogin) return next();
+      if (!token && !code) return next("/login");
+      if (token) {
+        store.dispatch("getUserInfo", token).then(() => {
+          if (store.state.isLogin) return next();
           next("/login");
         });
-    } else {
-      switch (path) {
-        case "/chat":
-          if (to.query.code) {
-            axios
-              .get("/user/oauth/github", {
-                params: {
-                  code: to.query.code
-                }
-              })
-              .then((res: any) => {
-                store.dispatch("getUserInfo", res.token).then(() => {
-                  next();
-                });
-              })
-              .catch(() => {
-                next("/login");
-              });
-          } else {
+      } else if (code) {
+        axios
+          .get("/user/oauth/github", {
+            params: {
+              code: to.query.code
+            }
+          })
+          .then((res: any) => {
+            localStorage.setItem("token", res.token);
+            store.dispatch("getUserInfo", res.token).then(() => {
+              next();
+            });
+          })
+          .catch(() => {
             next("/login");
-          }
-          break;
-        case "/login":
-        case "/signup":
-          next();
-          break;
-        default:
-          next("/login");
+          });
       }
-    }
   }
 });
 

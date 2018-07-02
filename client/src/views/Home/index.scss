@@ -6,22 +6,36 @@
     .left-side {
       height: 100%;
     }
+    .right-side {
+      height: 100%;
+    }
   }
 }
 
-@include tablet-horizontal {
+@include horizontal {
   .home {
     display: flex;
     @at-root {
       .left-side {
-        flex: 0 0 480px;
+        flex: 0 0 375px;
+        border-right: 1px solid #DCDFE6;
+      }
+      .right-side {
+        flex: 1;
       }
     }
   }
 }
 
-@media screen and (max-width: $tablet-width) {
+@media screen and (max-width: $desktop-width) {
   .left-side {
     width: 100%
+  }
+  .right-side {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    background-color: #fff;
   }
 }
