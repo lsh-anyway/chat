@@ -18,17 +18,13 @@ const app = express();
 const user = require("./routes/users");
 const dialog = require("./routes/dialog");
 
-const corsOptions = {
-  origin: "http://localhost:8080"
-};
-
 // 中间件
 if (process.env.NODE_ENV !== "test") app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(multer());
 app.use(history());
-app.use(cors(corsOptions));
+app.use(cors());
 
 //静态文件目录
 app.use("/assets", express.static(__dirname + "/assets"));
