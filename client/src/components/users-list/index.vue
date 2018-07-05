@@ -1,6 +1,6 @@
 <template>
 	<ul class="users-list">
-		<li v-for="user in users" :key="user.id" class="user-item" @click="selectUser(user)">
+		<li v-for="user in users" :key="user._id" class="user-item" @click="selectUser(user)">
 			<img class="avatar" :src="baseUrl + user.avatar" width="32" height="32s">
 			<div class="user-info">
 				<p class="nickname">{{user.nickname}}</p>
@@ -25,13 +25,14 @@ export default class userLists extends Vue {
   baseUrl = baseUrl;
 
   selectUser(user: any) {
+    console.log(user);
     let friends = this.friends;
     let me = this.user;
-    if (me.id === user.id) {
+    if (me._id === user._id) {
       return this.$message("不能添加自己为好友");
     }
     friends.forEach((item: any) => {
-      if (item.id === user.id) {
+      if (item._id === user._id) {
         return this.$message("该用户已在您的好友列表中");
       }
     });

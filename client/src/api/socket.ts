@@ -3,12 +3,12 @@ import store from "@/store/store";
 
 const socket = io("http://localhost:3000");
 
-function initSocket(user: any) {
+function initSocket(id: any) {
   socket.on("news", (data: any) => {
     console.log(data);
   });
 
-  const user_id = user.id;
+  const user_id = id;
   socket.emit("init", { user_id });
 
   socket.on("verify", (data: any) => {
@@ -16,8 +16,13 @@ function initSocket(user: any) {
   });
 
   socket.on("agree", (data: any) => {
-		store.commit("addFriend", data);
-  })
+    console.log(data);
+    store.commit("addFriend", data);
+  });
+
+  socket.on("message", (data: any) => {
+    store.commit("addMessage", data);
+  });
 }
 
 export { socket, initSocket };

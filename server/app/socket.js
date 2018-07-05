@@ -2,6 +2,10 @@ const app = require("./app");
 const http = require("http");
 const server = http.Server(app);
 const User = require("./models/users");
+const Dialog = require("./models/dialogs");
+const Message = require("./models/messages");
+const mongoose = require("mongoose");
+const ObjectId = mongoose.Types.ObjectId;
 const _ = require("lodash");
 
 const io = require("socket.io")(server, {
@@ -28,7 +32,7 @@ io.on("connection", socket => {
     });
     await user.save();
     let fromInfo = {
-      id: from.id,
+      _id: from._id,
       avatar: from.avatar,
       nickname: from.nickname
     };
@@ -41,7 +45,7 @@ io.on("connection", socket => {
   });
   socket.on("agree", async data => {
     const sockets = io.sockets.sockets;
-    const id = data.from.id;
+    const id = data.from._id;
     let toSocket = _.filter(sockets, _.matches({ user_id: id }))[0];
     let to = await User.findById(id).populate("verifications.from");
     let from = await User.findById(socket.user_id).populate(
@@ -51,7 +55,7 @@ io.on("connection", socket => {
     await to.update({ $addToSet: { friends: from } });
     await from.update({ $addToSet: { friends: to } });
 
-    from.verifications.filter(item => {
+    from.verifications = from.verifications.filter(item => {
       return item.from._id.toString() !== id.toString();
     });
 
@@ -59,12 +63,61 @@ io.on("connection", socket => {
 
     if (toSocket) {
       toSocket.emit("agree", {
-        id: from._id,
+        _id: from._id,
         avatar: from.avatar,
         nickname: from.nickname
       });
     }
   });
+  socket.on("message", async data => {
+    const sockets = io.sockets.sockets;
+    let dialog = await Dialog.findById(data.dialog);
+    let from = await User.findById(data.from);
+    let content = data.content;
+    let message = new Message({
+      dialog,
+      from,
+      content
+    });
+
+    await dialog.update({ $addToSet: { messages: message } });
+    await message.save();
+
+    let members = dialog.members;
+    let response = {
+      meta: message.meta,
+      dialog: data.dialog,
+      content: data.content,
+      from: {
+        _id: from._id,
+        avatar: from.avatar,
+        nickname: from.nickname
+      }
+    };
+
+    members.forEach(async member => {
+      let id = member.toString();
+      let memberSocket =  _.filter(sockets, _.matches({ user_id: id }))[0];
+      if (memberSocket) {
+        await message.update({$addToSet: {"meta.status.receive": member}});
+        memberSocket.emit("message", response);
+      }
+    });
+  });
+  socket.on("read", async data => {
+    let id = socket.user_id;
+    let user = await User.findById(id);
+    let dialog = await Dialog.findById(data).populate({
+      path: "messages",
+      match: {"meta.status.read": {$ne: new ObjectId(id)}}
+    });
+    dialog.messages.forEach(async messageInfo => {
+      let message = Message.findById(messageInfo._id);
+      if (user) {
+        await message.update({$addToSet: {"meta.status.read": user}});
+      }
+    });
+  })
 });
 
 module.exports = server;

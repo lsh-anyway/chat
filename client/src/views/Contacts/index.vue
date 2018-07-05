@@ -5,7 +5,7 @@
 			<span class="num">{{verifications.length}}</span>
 		</div>
 		<ul class="friends-list">
-			<li class="friend-item" v-for="item in friends" :key="item,id">
+			<li class="friend-item" v-for="item in friends" :key="item._id" @click="showFriendPanel(item)">
 				<img class="avatar" :src="baseUrl + item.avatar" width="32" height="32">
 				<span class="nickname">{{item.nickname}}</span>
 			</li>
@@ -23,6 +23,7 @@ export default class contacts extends Vue {
   @State verifications: any;
   @State friends: any;
   @Mutation showVerification: any;
+  @Mutation showFriendPanel: any;
 
   baseUrl = baseUrl;
 }

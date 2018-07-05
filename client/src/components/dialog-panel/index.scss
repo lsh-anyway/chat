@@ -1,0 +1,87 @@
+.dialog-panel {
+  display: grid;
+  grid-template-rows: 3rem auto 3rem;
+  height: 100%;
+  overflow: hidden;
+  @at-root {
+    header {
+      position: relative;
+      line-height: 3rem;
+      color: #606266;
+      border-bottom: 1px solid #DCDFE6;
+      font-size: 20px;
+      font-weight: lighter;
+      i {
+        position: absolute;
+        cursor: pointer;
+        top: 1rem;
+        left: 1rem;
+        font-size: 16px;
+      }
+    }
+    .message-list {
+      margin: 0;
+      padding: 0;
+      overflow: auto;
+    }
+    .form {
+      display: flex;
+      border-top: 1px solid #DCDFE6;
+      .el-form-item {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 0;
+      }
+      .input {
+        flex: 4;
+        padding: 0 0 0 1rem;
+      }
+      .button {
+        flex: 1;
+        padding: 0 1rem;
+      }
+    }
+    .message {
+      min-height: 4rem;
+      display: flex;
+      .avatar {
+        flex: 0 0 2rem;
+        padding: 1rem;
+      }
+      i {
+        height: 14px;
+        width: 1rem;
+        margin-right: -8px;
+        background: #fff url("../../assets/left-arrow.png") center;
+        margin-top: 26px;
+        z-index: 10;
+      }
+      .content {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        margin-right: 4rem;
+        padding: 0 1rem;
+        line-height: 2rem;
+        border: 1px solid #E4E7ED;
+        border-radius: .5rem;
+      }
+      &.myMessage {
+        flex-direction: row-reverse;
+        .avatar {}
+        i {
+          height: 14px;
+          width: 1rem;
+          margin-right: 0;
+          margin-left: -8px;
+          background: #fff url("../../assets/right-arrow.png") center;
+          z-index: 10;
+        }
+        .content {
+          margin-right: 0;
+          margin-left: 4rem;
+        }
+      }
+    }
+  }
+}

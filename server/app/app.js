@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 // const multer = require('multer');
 const logger = require("morgan");
 const cors = require("cors");
+const history = require('connect-history-api-fallback');
 const mongoose = require("mongoose");
 
 mongoose.Promise = global.Promise;
@@ -15,6 +16,7 @@ if (process.env.NODE_ENV === "test") {
 const app = express();
 
 const user = require("./routes/users");
+const dialog = require("./routes/dialog");
 
 const corsOptions = {
   origin: "http://localhost:8080"
@@ -25,12 +27,15 @@ if (process.env.NODE_ENV !== "test") app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(multer());
+app.use(history());
 app.use(cors(corsOptions));
 
 //静态文件目录
 app.use("/assets", express.static(__dirname + "/assets"));
+app.use(express.static(__dirname + "/views"));
 
 // 路由
 app.use("/user", user);
+app.use("/dialog", dialog);
 
 module.exports = app;

@@ -5,7 +5,7 @@
 			好友申请
 		</header>
 		<ul class="verify-list">
-			<li v-for="item in verifications" :key="item.id" class="verify-item">
+			<li v-for="item in verifications" :key="item._id" class="verify-item">
 				<img class="avatar" :src="baseUrl + item.from.avatar" width="32" height="32">
 				<div class="info">
 					<span class="nickname">{{item.from.nickname}}</span>

@@ -8,6 +8,20 @@ const getters: GetterTree<any, any> = {
       user.avatar = baseUrl + user.avatar;
     }
     return user;
+  },
+  dialogs(state) {
+    let user = state.user;
+    let dialogs = state.dialogs;
+    dialogs.forEach((info: any) => {
+      if (!info.name || info.name.length === 0) {
+        info.members.forEach((member: any) => {
+          if (member._id !== user._id) {
+            info.name = member.nickname;
+          }
+        });
+      }
+    });
+    return dialogs;
   }
 };
 

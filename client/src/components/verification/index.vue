@@ -28,9 +28,10 @@ export default class verification extends Vue {
   verify() {
     console.log(this.content);
     socket.emit("verify", {
-      to: this.content.activeContent.id,
+      to: this.content.activeContent._id,
       content: this.verifyInfo
     });
+    this.clearContent();
   }
 }
 </script>

@@ -1,20 +1,27 @@
 export interface User {
-  id: String;
+  _id: String;
   nickname: String;
   avatar: String;
 }
 
 interface Message {
-  id: String;
+  _id: String;
   from: User;
   content: String;
-  created: Date;
+  meta: {
+	  createAt: Date,
+	  status: {
+	  	receive: String[],
+		  read: String[]
+	  }
+  };
 }
 
 interface Dialog {
-  id: String;
-  member: User[];
+  _id: String;
+  members: User[];
   messages: Message[];
+  num: Number;
 }
 
 interface Content {
@@ -40,7 +47,7 @@ export interface State {
 const state: State = {
   isLogin: false,
   user: {
-    id: "",
+    _id: "",
     nickname: "",
     avatar: ""
   },

@@ -21,8 +21,23 @@ const MessageSchema = new Schema({
     createAt: {
       type: Date,
       default: Date.now()
+    },
+    status: {
+      receive: [{
+        type: ObjectId,
+        ref: "user"
+      }],
+      read: [{
+        type: ObjectId,
+        ref: "user"
+      }]
     }
   }
+});
+
+MessageSchema.pre("save", async function(next) {
+  this.meta.createAt = Date.now();
+  next();
 });
 
 const Message = mongoose.model("message", MessageSchema);

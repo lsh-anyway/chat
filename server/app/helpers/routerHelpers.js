@@ -48,6 +48,13 @@ module.exports = {
       password: Joi.string()
         .regex(/^[a-zA-Z0-9]{6,16}$/)
         .required()
+    }),
+    dialogSchema: Joi.object().keys({
+      members: Joi.array().items(
+        Joi.string()
+          .regex(/^[0-9a-fA-F]{24}$/)
+          .required()
+      )
     })
   }
 };

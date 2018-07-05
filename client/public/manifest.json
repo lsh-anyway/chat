@@ -1,6 +1,6 @@
 {
-  "name": "client",
-  "short_name": "client",
+  "name": "CHAT",
+  "short_name": "CHAT",
   "icons": [
     {
       "src": "/img/icons/android-chrome-192x192.png",

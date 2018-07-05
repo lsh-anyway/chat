@@ -2,7 +2,9 @@ const passport = require("passport"),
   LocalStrategy = require("passport-local").Strategy,
   GitHubStrategy = require("passport-github").Strategy,
   JwtStrategy = require("passport-jwt").Strategy,
-  ExtractJwt = require("passport-jwt").ExtractJwt;
+  ExtractJwt = require("passport-jwt").ExtractJwt,
+  Mongoose = require('mongoose'),
+  ObjectId = Mongoose.Types.ObjectId;
 
 const User = require("../models/users");
 const config = require("../config/index");
@@ -83,7 +85,30 @@ passport.use(
     async (payload, done) => {
       try {
         // 在数据库中查找用户
-        const user = await User.findById(payload.sub).populate(["verifications.from", "friends", "dialogs"]);
+        const user = await User.findById(payload.sub)
+          .select("_id avatar nickname friends dialogs verifications")
+          .populate({
+            path: "verifications.from",
+            select: "_id avatar nickname"
+          })
+          .populate({
+            path: "friends",
+            select: "_id avatar nickname"
+          })
+          .populate({
+            path: "dialogs",
+            populate: [{
+              path: "members",
+              select: ["_id", "nickname", "avatar"]
+            }, {
+              path: "messages",
+              match: {"meta.status.read": {$ne: new ObjectId(payload.sub)}},
+              populate: {
+                path: "from",
+                select: ["_id", "avatar", "nickname"]
+              }
+            }]
+          });
 
         // 如果用户不存在，返回 false
         if (!user) {
