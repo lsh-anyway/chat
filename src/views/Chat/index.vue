@@ -34,7 +34,7 @@ export default class dialogsList extends Vue {
     }
     return url;
   }
-  getContent(item) {
+  getContent(item: any) {
     if (item.messages.length > 0) {
       let messages = item.messages;
       let message = messages[messages.length - 1];
@@ -43,7 +43,7 @@ export default class dialogsList extends Vue {
       return `${from}: ${content}`;
     }
   }
-  clickDialog(item) {
+  clickDialog(item: any) {
     this.showDialog(item);
     this.clearDialogNum(item._id);
   }

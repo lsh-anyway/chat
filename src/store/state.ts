@@ -9,11 +9,11 @@ interface Message {
   from: User;
   content: String;
   meta: {
-	  createAt: Date,
-	  status: {
-	  	receive: String[],
-		  read: String[]
-	  }
+    createAt: Date;
+    status: {
+      receive: String[];
+      read: String[];
+    };
   };
 }
 

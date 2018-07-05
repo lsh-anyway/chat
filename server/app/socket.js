@@ -9,7 +9,6 @@ const ObjectId = mongoose.Types.ObjectId;
 const _ = require("lodash");
 
 const io = require("socket.io")(server, {
-  origins: ["http://127.0.0.1:8080", "http://localhost:8080"],
   serveClient: false
 });
 

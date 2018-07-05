@@ -17,3 +17,19 @@ body {
 .el-button {
   cursor: pointer;
 }
+
+@media screen and (min-width: 1367px) {
+  body {
+    background-color: #303133;
+  }
+  #app {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60vw;
+    height: 80vh;
+    border: 1px solid #DCDFE6;
+    background-color: #fff;
+  }
+}
