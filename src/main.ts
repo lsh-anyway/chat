@@ -14,10 +14,12 @@ Vue.prototype.axios = axios;
 router.beforeEach((to, from, next) => {
   const path = to.path;
   const token = localStorage.getItem("token");
+  const connecting = store.state.connecting;
   const code = to.query.code;
   switch (path) {
     case "/login":
     case "/signup":
+    	if (connecting) return next("/");
       if (!token) return next();
       if (token) {
         store
@@ -31,6 +33,7 @@ router.beforeEach((to, from, next) => {
       }
       break;
     default:
+    	if (connecting) return next();
       if (!token && !code) return next("/login");
       if (token) {
 	      next();
