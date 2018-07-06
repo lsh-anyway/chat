@@ -13,20 +13,17 @@ Vue.prototype.axios = axios;
 
 router.beforeEach((to, from, next) => {
   const path = to.path;
-  const isLogin = store.state.isLogin;
   const token = localStorage.getItem("token");
   const code = to.query.code;
   switch (path) {
     case "/login":
     case "/signup":
-      if (isLogin) return next("/");
       if (!token) return next();
       if (token) {
         store
           .dispatch("getUserInfo", token)
           .then(() => {
-            if (store.state.isLogin) return next("/");
-            next();
+            next("/");
           })
           .catch(err => {
             next();
@@ -34,13 +31,10 @@ router.beforeEach((to, from, next) => {
       }
       break;
     default:
-      if (isLogin) return next();
       if (!token && !code) return next("/login");
       if (token) {
-        store.dispatch("getUserInfo", token).then(() => {
-          if (store.state.isLogin) return next();
-          next("/login");
-        });
+	      next();
+        store.dispatch("getUserInfo", token);
       } else if (code) {
         axios
           .get("/user/oauth/github", {
@@ -49,10 +43,9 @@ router.beforeEach((to, from, next) => {
             }
           })
           .then((res: any) => {
-            localStorage.setItem("token", res.token);
-            store.dispatch("getUserInfo", res.token).then(() => {
-              next();
-            });
+	          next();
+	          localStorage.setItem("token", res.token);
+            store.dispatch("getUserInfo", res.token);
           })
           .catch(() => {
             next("/login");

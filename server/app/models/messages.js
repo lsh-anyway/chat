@@ -23,14 +23,18 @@ const MessageSchema = new Schema({
       default: Date.now()
     },
     status: {
-      receive: [{
-        type: ObjectId,
-        ref: "user"
-      }],
-      read: [{
-        type: ObjectId,
-        ref: "user"
-      }]
+      receive: [
+        {
+          type: ObjectId,
+          ref: "user"
+        }
+      ],
+      read: [
+        {
+          type: ObjectId,
+          ref: "user"
+        }
+      ]
     }
   }
 });

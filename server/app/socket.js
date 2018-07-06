@@ -13,9 +13,9 @@ const io = require("socket.io")(server, {
 });
 
 io.on("connection", socket => {
-  socket.emit("news", "connecting...");
   socket.on("init", data => {
-    socket.user_id = data.user_id;
+    socket.user_id = data.id;
+    socket.emit("success");
   });
   socket.on("verify", async data => {
     const sockets = io.sockets.sockets;
@@ -96,9 +96,9 @@ io.on("connection", socket => {
 
     members.forEach(async member => {
       let id = member.toString();
-      let memberSocket =  _.filter(sockets, _.matches({ user_id: id }))[0];
+      let memberSocket = _.filter(sockets, _.matches({ user_id: id }))[0];
       if (memberSocket) {
-        await message.update({$addToSet: {"meta.status.receive": member}});
+        await message.update({ $addToSet: { "meta.status.receive": member } });
         memberSocket.emit("message", response);
       }
     });
@@ -108,15 +108,15 @@ io.on("connection", socket => {
     let user = await User.findById(id);
     let dialog = await Dialog.findById(data).populate({
       path: "messages",
-      match: {"meta.status.read": {$ne: new ObjectId(id)}}
+      match: { "meta.status.read": { $ne: new ObjectId(id) } }
     });
     dialog.messages.forEach(async messageInfo => {
       let message = Message.findById(messageInfo._id);
       if (user) {
-        await message.update({$addToSet: {"meta.status.read": user}});
+        await message.update({ $addToSet: { "meta.status.read": user } });
       }
     });
-  })
+  });
 });
 
 module.exports = server;

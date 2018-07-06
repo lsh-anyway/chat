@@ -1,24 +1,22 @@
 import { MutationTree } from "vuex";
-import { State, User } from "@/store/state";
-import { socket, initSocket } from "@/api/socket";
+import { State } from "@/store/state";
+import { socket } from "@/api/socket";
+import { clearDB } from "@/api/pouchDB";
 
 const mutations: MutationTree<any> = {
+	// 设置socket 连接信息
+	setSocket(state: State) {
+		state.connecting = true;
+	},
   // 设置用户信息
   setUserInfo(state: State, info: any) {
-    const { _id, avatar, nickname }: User = info;
-    info.dialogs.forEach((dialog: any) => {
-    	dialog.num = dialog.messages.length;
-    });
-    state.isLogin = true;
-    state.user = { _id, avatar, nickname };
+    state.user = info.user;
     state.friends = info.friends;
     state.dialogs = info.dialogs;
     state.verifications = info.verifications;
-    initSocket(_id);
   },
   // 清空用户信息
   clearUserInfo(state: State) {
-    state.isLogin = false;
     state.user = {
       _id: "",
       nickname: "",
@@ -27,6 +25,7 @@ const mutations: MutationTree<any> = {
     state.friends = [];
     state.dialogs = [];
     state.verifications = [];
+	  clearDB();
   },
   // 添加朋友到通讯录
   addFriend(state: State, info: any) {
@@ -72,7 +71,7 @@ const mutations: MutationTree<any> = {
   },
   // 添加会话
   addDialog(state: State, info: any) {
-  	info.num = 0;
+    info.num = 0;
     state.dialogs.push(info);
   },
   // 添加信息
@@ -85,12 +84,12 @@ const mutations: MutationTree<any> = {
     });
   },
   // 重置未读信息条数
-	clearDialogNum(state: State, info: any) {
-  	let dialog = state.dialogs.filter((item: any) => {
-  		return item._id === info;
-	  });
-  	dialog[0].num = 0;
-	}
+  clearDialogNum(state: State, info: any) {
+    let dialog = state.dialogs.filter((item: any) => {
+      return item._id === info;
+    });
+    dialog[0].num = 0;
+  }
 };
 
 export default mutations;

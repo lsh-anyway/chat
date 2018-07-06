@@ -36,7 +36,7 @@ interface Verification {
 }
 
 export interface State {
-  isLogin: Boolean;
+	connecting: Boolean;
   user: User;
   friends: User[];
   dialogs: Dialog[];
@@ -45,7 +45,7 @@ export interface State {
 }
 
 const state: State = {
-  isLogin: false,
+	connecting: false,
   user: {
     _id: "",
     nickname: "",

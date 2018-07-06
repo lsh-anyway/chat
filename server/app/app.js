@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 // const multer = require('multer');
 const logger = require("morgan");
 const cors = require("cors");
-const history = require('connect-history-api-fallback');
+const history = require("connect-history-api-fallback");
 const mongoose = require("mongoose");
 
 mongoose.Promise = global.Promise;

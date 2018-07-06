@@ -2,6 +2,8 @@ const JWT = require("jsonwebtoken");
 const User = require("../models/users");
 const Dialog = require("../models/dialogs");
 const Message = require("../models/messages");
+// const mongoose = require("mongoose");
+// const ObjectId = mongoose.Types.ObjectId;
 const { JWT_SECRET } = require("../config/index");
 
 const signToken = user => {
@@ -67,6 +69,13 @@ module.exports = {
   // 获取用户信息
   getUser: async (req, res, next) => {
     const user = req.user;
+    const messages = await Message.find({
+      dialog: user.dialogs,
+      "meta.status.receive": { $ne: user._id }
+    });
+    messages.forEach(async message => {
+      await message.update({ "meta.status.receive": user });
+    });
 
     res.status(200).json(user);
   },
@@ -96,7 +105,7 @@ module.exports = {
         avatar: user.avatar
       });
     }
-    
+
     res.status(200).json(response);
   }
 };

@@ -3,7 +3,7 @@ const passport = require("passport"),
   GitHubStrategy = require("passport-github").Strategy,
   JwtStrategy = require("passport-jwt").Strategy,
   ExtractJwt = require("passport-jwt").ExtractJwt,
-  Mongoose = require('mongoose'),
+  Mongoose = require("mongoose"),
   ObjectId = Mongoose.Types.ObjectId;
 
 const User = require("../models/users");
@@ -97,17 +97,23 @@ passport.use(
           })
           .populate({
             path: "dialogs",
-            populate: [{
-              path: "members",
-              select: ["_id", "nickname", "avatar"]
-            }, {
-              path: "messages",
-              match: {"meta.status.read": {$ne: new ObjectId(payload.sub)}},
-              populate: {
-                path: "from",
-                select: ["_id", "avatar", "nickname"]
+            select: "_id members messages",
+            populate: [
+              {
+                path: "members",
+                select: ["_id", "nickname", "avatar"]
+              },
+              {
+                path: "messages",
+                match: {
+                  "meta.status.read": { $ne: new ObjectId(payload.sub) }
+                },
+                populate: {
+                  path: "from",
+                  select: ["_id", "avatar", "nickname"]
+                }
               }
-            }]
+            ]
           });
 
         // 如果用户不存在，返回 false
